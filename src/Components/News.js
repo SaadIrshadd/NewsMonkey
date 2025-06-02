@@ -9,12 +9,7 @@ export default class News extends Component {
     pageSize: 6,
     category: "sports",
   };
-
-  static propTypes = {
-    category: PropTypes.string,
-    pageSize: PropTypes.number,
-  };
-
+  
   constructor(props) {
     super(props);
     this.state = {
