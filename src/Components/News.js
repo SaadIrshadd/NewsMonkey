@@ -14,14 +14,20 @@ export default class News extends Component {
     pageSize: PropTypes.number,
   };
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       articles: [],
       loading: false,
       page: 1,
     };
+    
+    document.title=`${this.Capitalize(this.props.category)} - NewsMonkey`;
   }
+
+  Capitalize = (string) =>{
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  } 
 
   async Update(){
     let url=`https://newsapi.org/v2/top-headlines?country=us&category=${this.props.category}&apiKey=825157aa427e42728c6d5f76ec0354f2&page=${this.state.page}&pageSize=${this.props.pageSize}`
@@ -59,7 +65,7 @@ export default class News extends Component {
     return (
       <div className="container my-3">
         <h2 className="text-center" style={{ padding: `30px` }}>
-          NewsMonkey - Top Headlines
+          NewsMonkey - {this.Capitalize(this.props.category)} Top Headlines
         </h2>
         {this.state.loading && <Spinner />}
 
