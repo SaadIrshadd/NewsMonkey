@@ -73,7 +73,7 @@ export default class News extends Component {
   render() {
     return (
       <>
-        <h2 className="text-center" style={{ padding: `30px` }}>
+        <h2 className="text-center" style={{ padding: `30px` , marginTop: `65px` }}>
           NewsMonkey - {this.Capitalize(this.props.category)} Top Headlines
         </h2>
         {this.state.loading && <Spinner />}
