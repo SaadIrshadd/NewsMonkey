@@ -10,7 +10,7 @@ export default class News extends Component {
     category: "sports",
   };
 
-  static propTyps = {
+  static propTypes = {
     category: PropTypes.string,
     pageSize: PropTypes.number,
   };
@@ -32,18 +32,22 @@ export default class News extends Component {
   };
 
   async Update() {
+    this.props.setProgress(10);
     let url = `https://newsapi.org/v2/top-headlines?country=us&category=${this.props.category}&apiKey=825157aa427e42728c6d5f76ec0354f2&page=${this.state.page}&pageSize=${this.props.pageSize}`;
     this.setState({
       loading: true,
     });
-
+    
     let data = await fetch(url);
+    this.props.setProgress(30);
     let parsedData = await data.json();
+    this.props.setProgress(70);
     this.setState({
       articles: parsedData.articles,
       totalResults: parsedData.totalResults,
       loading: false,
     });
+    this.props.setProgress(100);
   }
 
   async componentDidMount() {
@@ -75,11 +79,11 @@ export default class News extends Component {
         {this.state.loading && <Spinner />}
 
         <InfiniteScroll
-          dataLength={this.state.articles.length}
-          next={this.fetchMoreData}
-          hasMore={this.state.articles.length !== this.state.totalResults}
-          loader={<Spinner />}
-        >
+        dataLength={this.state.articles ? this.state.articles.length : 0}
+        next={this.fetchMoreData}
+        hasMore={this.state.articles && this.state.articles.length !== this.state.totalResults}
+        loader={<Spinner />}
+      >
           <div className="container">
             <div className="row">
               {this.state.articles.map((element,index) => {
