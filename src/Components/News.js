@@ -31,9 +31,9 @@ export default class News extends Component {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
-  async Update() {
+  Update= async() => {
     this.props.setProgress(10);
-    let url = `https://newsapi.org/v2/top-headlines?country=us&category=${this.props.category}&apiKey=825157aa427e42728c6d5f76ec0354f2&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+    let url = `https://newsapi.org/v2/top-headlines?country=us&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
     this.setState({
       loading: true,
     });
@@ -56,7 +56,7 @@ export default class News extends Component {
 
   fetchMoreData = async () => {
     this.setState({ page: this.state.page + 1 });
-    let url = `https://newsapi.org/v2/top-headlines?country=us&category=${this.props.category}&apiKey=825157aa427e42728c6d5f76ec0354f2&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+    let url = `https://newsapi.org/v2/top-headlines?country=us&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
     this.setState({
       loading: true,
     });
@@ -82,12 +82,13 @@ export default class News extends Component {
         dataLength={this.state.articles ? this.state.articles.length : 0}
         next={this.fetchMoreData}
         hasMore={this.state.articles && this.state.articles.length !== this.state.totalResults}
-        loader={<Spinner />}
+        loader={this.state.articles.length <= this.state.totalResults ? <Spinner /> : null
+  }
       >
           <div className="container">
             <div className="row">
               {this.state.articles.map((element,index) => {
-                return (
+                 return (
                   <div className="col-md-4" key={`${element.url}-${index}`}>
                     <NewsItem
                       title={element.title ? element.title : ""}
